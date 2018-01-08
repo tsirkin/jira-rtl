@@ -1,0 +1,21 @@
+{
+    "name": "JiraRTL",
+    "short_name": "JiraRTL",
+    "version": "1.0",
+    "manifest_version": 2,
+    "description": "Enables RTL in Jira",
+    "browser_action": {
+	"default_icon": {
+	    "16": "images/hand-rtl-16x16.png",
+	    "48": "images/hand-rtl-48x48.png",
+	    "128": "images/hand-rtl-128x128.png"
+	},
+	"default_title": "JiraRTL"
+    },
+    "background": {
+	"scripts": ["background.js"]
+    },
+    "permissions": [
+	"activeTab"
+    ]
+}
