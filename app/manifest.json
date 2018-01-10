@@ -20,6 +20,10 @@
 	"scripts": ["scripts/background.js"]
     },
     "permissions": [
-	"activeTab"
+	"activeTab",
+	"storage",
+	"tabs",
+	"http://*/*",
+	"https://*/*"
     ]
 }

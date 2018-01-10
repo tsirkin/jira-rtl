@@ -1,15 +1,11 @@
 var $ = require("jquery");
-// var descElem = document.getElementById("description-val");
-// var editor = require("jira/editor/tinymce");
-// editor.remove();
-// editor.init({
-//     selector: "#description-val",  // change this value according to your HTML
-//     plugins: "directionality",
-//     toolbar: "ltr rtl"
-// });
+
 console.log("Loaded rtl");
 function wrapWithBdi(el){
     $(el).wrap("<bdi></bdi>");
+}
+function wrapWithInnerBdi(el){
+    $(el).wrapInner("<bdi></bdi>");
 }
 function rtlMCE(){
     var iframes = document.querySelectorAll("iframe");
@@ -21,8 +17,8 @@ function rtlMCE(){
 	var elMCE = doc.getElementById("tinymce");
 	if(!elMCE) return;
 	// The body have id = tinymce
-	// 1. Find all the <p> and wrap them inside <bdi>
-	// 2. Wait for any key press, llok for closest p and wrap it inside a bdi element.
+	// 1. Find all the <p> and wrap them inside <bdi> (done)
+	// 2. Wait for any key press, llok for closest p and wrap it inside a bdi element.(todo)
 	var ps = doc.querySelectorAll("body p");
 	ps.forEach((el) => {
 	    console.log(el);
@@ -30,6 +26,8 @@ function rtlMCE(){
 	});
     });
 }
+
+
 // TODO: if certain tab have already converted the hebrew don't do it again.
 $(".editable-field").each((idx,el) => {
     if($(el).attr("id") == "description-val"){
@@ -58,3 +56,26 @@ $("td.summary p").each((idx,el) => {
     wrapWithBdi(el);
 });
 
+// summary links to another tasks
+$(".link-summary").each((idx,el) => {
+    wrapWithBdi(el);
+});
+// issue links (e.g. linked epics)
+$(".issue-link").each((idx,el) => {
+    wrapWithBdi(el);
+});
+// log
+// TODO: the new/old do not work as those are td elements which discards bdi
+// should wrap the inside text in div that takes the whole td space and set the bdi on this.
+// $(".activity-new-val").each((idx,el) => {
+//     wrapWithInnerBdi(el);
+// });
+// comment
+// TODO: we should *in global case* take care of both p and ul tags
+$(".action-body p").each((idx,el) => {
+    wrapWithBdi(el);
+});
+
+$(".action-body ul").each((idx,el) => {
+    wrapWithBdi(el);
+});
