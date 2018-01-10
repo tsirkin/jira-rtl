@@ -53,3 +53,8 @@ $("#description-val").on("click",function(e){
 $(".issue-link-summary").each((idx,el) => {
     wrapWithBdi(el);
 });
+// dashboard summary
+$("td.summary p").each((idx,el) => {
+    wrapWithBdi(el);
+});
+
