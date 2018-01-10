@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "gulp dev --debug",
+    "build": "gulp build",
     "ui": "npm run test:flat:build:states && beefy ui-dev.js:bundle.js --live --open --index=./development/index.html --cwd ./",
     "mock": "beefy mock-dev.js:bundle.js --live --open --index=./development/index.html --cwd ./",
     "watch": "mocha watch --recursive \"test/unit/**/*.js\"",
@@ -84,6 +85,7 @@
     "iframe-stream": "^3.0.0",
     "inject-css": "^0.1.1",
     "jazzicon": "^1.2.0",
+    "jquery": "^3.2.1",
     "json-rpc-engine": "3.2.0",
     "json-rpc-middleware-stream": "^1.0.1",
     "lodash.debounce": "^4.0.8",

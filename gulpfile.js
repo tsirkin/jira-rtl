@@ -28,22 +28,12 @@ var debug = gutil.env.debug
 
 gulp.task('dev:reload', function() {
   livereload.listen({
-    port: 35729,
+    port: 35729
   })
 })
 
 
 // copy static
-
-gulp.task('copy:locales', copyTask({
-  source: './app/_locales/',
-  destinations: [
-    './dist/firefox/_locales',
-    './dist/chrome/_locales',
-    './dist/edge/_locales',
-    './dist/opera/_locales',
-  ]
-}))
 gulp.task('copy:images', copyTask({
   source: './app/images/',
   destinations: [
@@ -51,7 +41,7 @@ gulp.task('copy:images', copyTask({
     './dist/chrome/images',
     './dist/edge/images',
     './dist/opera/images',
-  ],
+  ]
 }))
 gulp.task('copy:fonts', copyTask({
   source: './app/fonts/',
@@ -60,7 +50,7 @@ gulp.task('copy:fonts', copyTask({
     './dist/chrome/fonts',
     './dist/edge/fonts',
     './dist/opera/fonts',
-  ],
+  ]
 }))
 gulp.task('copy:reload', copyTask({
   source: './app/scripts/',
@@ -70,7 +60,7 @@ gulp.task('copy:reload', copyTask({
     './dist/edge/scripts',
     './dist/opera/scripts',
   ],
-  pattern: '/chromereload.js',
+  pattern: '/chromereload.js'
 }))
 gulp.task('copy:root', copyTask({
   source: './app/',
@@ -80,7 +70,7 @@ gulp.task('copy:root', copyTask({
     './dist/edge',
     './dist/opera',
   ],
-  pattern: '/*',
+  pattern: '/*'
 }))
 
 gulp.task('manifest:chrome', function() {
@@ -127,7 +117,6 @@ gulp.task('manifest:production', function() {
 })
 
 const staticFiles = [
-  'locales',
   'images',
   'fonts',
   'root'
@@ -141,7 +130,7 @@ if (debug) {
 
 gulp.task('copy', gulp.series(gulp.parallel(...copyStrings), 'manifest:production', 'manifest:chrome', 'manifest:opera'))
 gulp.task('copy:watch', function(){
-  gulp.watch(['./app/{_locales,images}/*', './app/scripts/chromereload.js', './app/*.{html,json}'], gulp.series('copy'))
+  gulp.watch(['./app/images/*', './app/scripts/chromereload.js', './app/*.{html,json}'], gulp.series('copy'))
 })
 
 // lint js
@@ -178,10 +167,13 @@ gulp.task('default', ['lint'], function () {
 // build js
 
 const jsFiles = [
+    'load',
+    
   // 'inpage',
   // 'contentscript',
-  // 'background',
-  'popup',
+    'background',
+    'rtl',
+    'popup',
 ]
 
 // bundle tasks
@@ -258,7 +250,7 @@ function copyTask(opts){
 function zipTask(target) {
   return () => {
     return gulp.src(`dist/${target}/**`)
-    .pipe(zip(`metamask-${target}-${manifest.version}.zip`))
+    .pipe(zip(`jira-rtl-${target}-${manifest.version}.zip`))
     .pipe(gulp.dest('builds'));
   }
 }

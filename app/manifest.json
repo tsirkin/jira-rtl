@@ -12,8 +12,12 @@
 	},
 	"default_title": "JiraRTL"
     },
+    "web_accessible_resources": [
+	"scripts/load.js",
+	"scripts/rtl.js"
+    ],
     "background": {
-	"scripts": ["background.js"]
+	"scripts": ["scripts/background.js"]
     },
     "permissions": [
 	"activeTab"
