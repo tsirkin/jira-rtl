@@ -260,8 +260,8 @@ function generateBundler(opts, performBundle) {
       entries: ['./app/scripts/'+opts.filename],
       plugin: 'browserify-derequire',
       debug: debug,
-      fullPaths: debug,
-      standalone: 'Rtl'
+      fullPaths: debug
+      // standalone: 'Rtl'
   });
 
   let bundler = browserify(browserifyOpts)

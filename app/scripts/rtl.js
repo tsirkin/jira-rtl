@@ -1,8 +1,6 @@
 var $ = require("jquery");
 var RtlWatcher = require("./rtl-watcher");
 
-module.exports = new Rtl();
-
 function wrapWithBdi (el){
     let parent = $(el).parent();
     if(parent && parent.prop("tagName") == "BDI"){
@@ -32,11 +30,12 @@ function rtlMCE(){
 	var elMCE = doc.getElementById("tinymce");
 	if(!elMCE) return;
 	let watcher = new RtlWatcher();
-	watcher.observe(doc,rtlEditedText);
+	watcher.observe(doc.body,rtlEditedText);
     });
 }
 
 function rtlPage(doc){
+    console.log("rtlPage called");
     doc.querySelectorAll(".editable-field").forEach((el) => {
 	// Don't wrap a description-val as this is a mce editor's place.
 	if(el.id && el.id == "description-val"){
@@ -81,8 +80,10 @@ console.log("Loaded rtl");
 class Rtl {
     startRtlWatching(){
 	let watcher = new RtlWatcher();
-	watcher.observe(document,rtlPage);
+	watcher.observe(document.body,rtlPage);
 	rtlMCE();
     }
 }
+
+module.exports = Rtl;
 
