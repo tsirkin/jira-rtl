@@ -257,11 +257,12 @@ function zipTask(target) {
 
 function generateBundler(opts, performBundle) {
   const browserifyOpts = assign({}, watchify.args, {
-    entries: ['./app/scripts/'+opts.filename],
-    plugin: 'browserify-derequire',
-    debug: debug,
-    fullPaths: debug,
-  })
+      entries: ['./app/scripts/'+opts.filename],
+      plugin: 'browserify-derequire',
+      debug: debug,
+      fullPaths: debug,
+      standalone: 'Rtl'
+  });
 
   let bundler = browserify(browserifyOpts)
 

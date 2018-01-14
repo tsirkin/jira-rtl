@@ -4,6 +4,7 @@ if(!scriptEl){
     // TODO: add "script.js" to web_accessible_resources in manifest.json
     s.src = chrome.extension.getURL('scripts/rtl.js');
     s.onload = function() {
+	Rtl.startRtlWatching();
 	this.remove();
     };
     (document.head || document.documentElement).appendChild(s);
