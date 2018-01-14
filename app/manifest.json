@@ -21,6 +21,7 @@
 	"scripts": ["scripts/background.js"]
     },
     "permissions": [
+	"webNavigation",
 	"activeTab",
 	"storage",
 	"tabs",
