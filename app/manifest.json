@@ -14,7 +14,8 @@
     },
     "web_accessible_resources": [
 	"scripts/load.js",
-	"scripts/rtl.js"
+	"scripts/rtl.js",
+	"rtl.css"
     ],
     "background": {
 	"scripts": ["scripts/background.js"]

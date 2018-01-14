@@ -9,8 +9,8 @@ class RtlWatcher {
 	let config = {
 	    attributes: true,
 	    childList: true,
-	    characterData: true
-	    // subtree: true
+	    characterData: true,
+	    subtree: true
 	};
 	function _callback(mutations){
 	    console.log("inner callback called");
