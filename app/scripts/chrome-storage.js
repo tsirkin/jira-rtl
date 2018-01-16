@@ -7,28 +7,31 @@ class BaseChromeStorage{
 	this.area = chrome.storage[area];
     }
     get(key){
+	var area = this.area;
 	return new Promise((resolve) => {
-	    this.area.get(key,function(values){
+	    area.get(key,function(values){
 		resolve(values[key]);
 	    });
 	});
     }
     set(key,value){
+	var area = this.area;
 	return new Promise((resolve) => {
 	    let obj = {};
 	    obj[key] = value;
-	    this.area.set(obj,function() {
+	    area.set(obj,function() {
 		resolve();
 	    });
 	});
     }
     merge(key,obj){
+	var area = this.area;
 	this.get(key).then(function(oldObj){
 	    let newObj = Object.assign({},oldObj,obj);
 	    return new Promise((resolve) => {
 		let storeObj = {};
 		storeObj[key] = newObj;
-		this.area.set(storeObj,function() {
+		area.set(storeObj,function() {
 		    resolve();
 		});
 	    });
@@ -47,3 +50,9 @@ class ChromeLocalStorage extends BaseChromeStorage{
 	super('local');
     }
 }
+
+module.exports = {
+    ChromeSyncStorage : ChromeSyncStorage,
+    ChromeLocalStorage : ChromeLocalStorage,
+    BaseChromeStorage : BaseChromeStorage
+};

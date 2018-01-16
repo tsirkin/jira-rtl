@@ -83,7 +83,12 @@ function rtlMCE(){
 	console.log("ifrm : "+ifrm);
 	var win = ifrm.contentWindow; // reference to iframe's window
 	// reference to document in iframe
-	var doc = ifrm.contentDocument || ifrm.contentWindow.document;
+	try{
+	    var doc = ifrm.contentDocument || ifrm.contentWindow.document;
+	}catch(e){
+	    // We don't have permissions to read the iframe (i.e. a cross site out of jira site).
+	    return;
+	}
 	var elMCE = doc.getElementById("tinymce");
 	if(!elMCE) return;
 	let watcher = new RtlWatcher();
