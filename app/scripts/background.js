@@ -11,14 +11,14 @@ chrome.webNavigation.onCompleted.addListener(function(tab) {
     var url = tab.url;
     var oUrl = new URL(url)
     var domain = oUrl.hostname;
-    var bkg = chrome.extension.getBackgroundPage();
-    chrome.storage.sync.get(JiraURLsKey,function(urls) {
+    console.log('In webNavigation.onCompleted');
+    chrome.storage.sync.get(JiraURLsKey,function(oUrls) {
+	let urls = oUrls[JiraURLsKey];
 	if (Object.keys(urls).length > 0) {
 	    // Already there
-	    alert(urls[domain]);
 	    if(!urls[domain]) return;
 	} 
-        bkg.console.log('Url in list');
+        console.log('Url in list');
 	injectRtl();
     });
 });
@@ -27,13 +27,13 @@ chrome.browserAction.onClicked.addListener(function(tab) {
     var url = tab.url;
     var oUrl = new URL(url)
     var domain = oUrl.hostname;
-    // TODO: save the url
-    chrome.storage.sync.get(JiraURLsKey,function(urls) {
+    chrome.storage.sync.get(JiraURLsKey,function(oUrls) {
+	let urls = oUrls[JiraURLsKey];
 	if (Object.keys(urls).length > 0) {
 	    // Already there
 	    if(urls[domain]) return;
 	} else {
-            // The data array doesn't exist yet, create it
+            // The urls list doesn't exist yet, create it
             urls = {};
 	}
 	urls[domain] = true;
@@ -41,7 +41,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 	storage[JiraURLsKey] = urls;
 	// Now save the updated items using set
 	chrome.storage.sync.set(storage, function() {
-            //alert('Url successfully saved');
+	    // console.log("object %o stored successfully",storage);
 	});
     });
     injectRtl();

@@ -4,5 +4,5 @@ document.addEventListener('DOMContentLoaded', function () {
     // chrome.tabs.executeScript({
     // 	code: 'document.body.style.backgroundColor="red"'
     // });
-    chrome.tabs.insertCSS({file:"conf-ar-space.css"});
+    // chrome.tabs.insertCSS({file:"conf-ar-space.css"});
 });

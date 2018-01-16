@@ -83,7 +83,7 @@ function rtlMCE(){
 	console.log("ifrm : "+ifrm);
 	var win = ifrm.contentWindow; // reference to iframe's window
 	// reference to document in iframe
-	var doc = ifrm.contentDocument? ifrm.contentDocument: ifrm.contentWindow.document;
+	var doc = ifrm.contentDocument || ifrm.contentWindow.document;
 	var elMCE = doc.getElementById("tinymce");
 	if(!elMCE) return;
 	let watcher = new RtlWatcher();
