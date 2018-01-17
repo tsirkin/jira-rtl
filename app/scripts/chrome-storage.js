@@ -37,6 +37,18 @@ class BaseChromeStorage{
 	    });
 	});
     }
+    remove_nested(key,obj){
+    }
+    remove(key,obj){
+	var area = this.area;
+	return new Promise((resolve,reject) => {
+	    area.remove(key,function(values){
+		if(runtime.lastError && reject)
+		    reject(runtime.lastError);
+		resolve();
+	    });
+	});
+    }
 }
 
 class ChromeSyncStorage extends BaseChromeStorage{
