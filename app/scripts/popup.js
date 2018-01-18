@@ -1,3 +1,4 @@
+require('../css/popup.css');
 // Called when the user clicks on the browser action.
 document.addEventListener('DOMContentLoaded', function () {
     // No tabs or host permissions needed!

@@ -10,7 +10,8 @@
 	    "48": "images/hand-rtl-48x48.png",
 	    "128": "images/hand-rtl-128x128.png"
 	},
-	"default_title": "JiraRTL"
+	"default_title": "JiraRTL",
+	"default_popup": "popup.html"
     },
     "web_accessible_resources": [
 	"scripts/load.js",
