@@ -37,7 +37,11 @@ class BaseChromeStorage{
 	    });
 	});
     }
-    remove_nested(key,obj){
+    removeNested(key,nestedKey){
+	this.get(key).then(function(oldObj){
+	    delete oldObj[nestedKey];
+	    return this.set(key,oldObj);
+	})
     }
     remove(key,obj){
 	var area = this.area;
