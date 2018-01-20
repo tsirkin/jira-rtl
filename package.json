@@ -51,6 +51,7 @@
     ]
   },
   "dependencies": {
+    "bootstrap": "^4.0.0",
     "classnames": "^2.2.5",
     "clone": "^2.1.1",
     "copy-to-clipboard": "^3.0.8",
@@ -107,7 +108,10 @@
     "browserify": "^14.4.0",
     "browserify-derequire": "^0.9.4",
     "chai": "^4.1.0",
+    "clean-webpack-plugin": "^0.1.17",
+    "copy-webpack-plugin": "^4.3.1",
     "coveralls": "^3.0.0",
+    "css-loader": "^0.28.9",
     "deep-freeze-strict": "^1.1.1",
     "del": "^3.0.0",
     "envify": "^4.0.0",
@@ -115,6 +119,7 @@
     "eslint-plugin-chai": "0.0.1",
     "eslint-plugin-mocha": "^4.9.0",
     "eth-json-rpc-middleware": "^1.2.7",
+    "extract-text-webpack-plugin": "^3.0.2",
     "fs-promise": "^2.0.3",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-if": "^2.0.1",
@@ -125,6 +130,7 @@
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.5",
     "gulp-zip": "^4.0.0",
+    "html-webpack-plugin": "^2.30.1",
     "isomorphic-fetch": "^2.2.1",
     "jsdom": "^11.1.0",
     "jsdom-global": "^3.0.2",
@@ -149,12 +155,14 @@
     "react-test-renderer": "^15.6.2",
     "react-testutils-additions": "^15.2.0",
     "sinon": "^4.0.0",
+    "style-loader": "^0.19.1",
     "tape": "^4.5.1",
     "testem": "^1.10.3",
     "uglifyify": "^4.0.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^2.0.0",
-    "watchify": "^3.9.0"
+    "watchify": "^3.9.0",
+    "webpack": "^3.10.0"
   },
   "engines": {
     "node": ">=0.8.0"

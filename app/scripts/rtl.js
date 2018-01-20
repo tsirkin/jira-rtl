@@ -1,3 +1,4 @@
+require('../css/rtl.css');
 var $ = require("jquery");
 var RtlWatcher = require("./rtl-watcher");
 
