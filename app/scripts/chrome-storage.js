@@ -31,6 +31,7 @@ class BaseChromeStorage{
 	    return new Promise((resolve) => {
 		let storeObj = {};
 		storeObj[key] = newObj;
+		console.log("Storing object %o",storeObj);
 		area.set(storeObj,function() {
 		    resolve();
 		});
@@ -38,10 +39,15 @@ class BaseChromeStorage{
 	});
     }
     removeNested(key,nestedKey){
-	this.get(key).then(function(oldObj){
+	var area = this.area;
+	var removeCallback = function(oldObj){
+	    console.log("Old object %o ",oldObj);
+	    if(!(nestedKey in oldObj)) return;
 	    delete oldObj[nestedKey];
-	    return this.set(key,oldObj);
-	})
+	    console.log("Calling set ");
+	    this.set(key,oldObj);
+	}.bind(this);
+	this.get(key).then(removeCallback);
     }
     remove(key,obj){
 	var area = this.area;

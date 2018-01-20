@@ -56,7 +56,7 @@ function wrapEditedWithBdi (el){
 	    haveSiblings = true;
 	    
 	if(!haveSiblings){
-	    console.log("No siblings found ");
+	    // console.log("No siblings found ");
 	    return;
 	}
     }
@@ -64,14 +64,14 @@ function wrapEditedWithBdi (el){
 }
 
 function rtlEditedText(doc,mutations){
-    console.log("rtlEditedText called");
+    // console.log("rtlEditedText called");
     // The body have id = tinymce
     // 1. Find all the <p> and wrap them inside <bdi> (done)
     // 2. Wait for any key press, llok for closest p and wrap it inside a bdi element.(todo)
     // The this will be automatically fixed by the RtlWatcher to be the watched DOM object.
     for (let sel of BLOCK_SEL){
 	let ps = doc.querySelectorAll(sel);
-	console.log("mce selector "+sel);
+	// console.log("mce selector "+sel);
 	ps.forEach(el => {
 	    wrapEditedWithBdi(el);
 	});
@@ -81,7 +81,7 @@ function rtlEditedText(doc,mutations){
 function rtlMCE(){
     var iframes = document.querySelectorAll("iframe");
     iframes.forEach((ifrm) => {
-	console.log("ifrm : "+ifrm);
+	// console.log("ifrm : "+ifrm);
 	var win = ifrm.contentWindow; // reference to iframe's window
 	// reference to document in iframe
 	try{
@@ -98,7 +98,7 @@ function rtlMCE(){
 }
 
 function rtlPage(doc){
-    console.log("rtlPage called");
+    // console.log("rtlPage called");
     doc.querySelectorAll(".editable-field").forEach((el) => {
 	// Don't wrap a description-val as this is a mce editor's place.
 	if(el.id && el.id == "description-val"){
@@ -136,7 +136,7 @@ function rtlPage(doc){
     // 	doc.querySelectorAll(sel).forEach((el) => hintHebrew(el));
     // }
     $("#description-val").on("click",function(e){
-	console.log("descr clicked");
+	// console.log("descr clicked");
 	// $("#tinymce").find("p").each(el  => wrapWithBdi(el));
 	// wrapWithBdi($(this).find("p"));
 	rtlMCE();
@@ -150,7 +150,7 @@ function rtlPage(doc){
     //     wrapWithInnerBdi(el);
     // });
 };
-console.log("Loaded rtl");
+// console.log("Loaded rtl");
 
 class Rtl {
     startRtlWatching(){
