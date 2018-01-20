@@ -14,12 +14,12 @@
 	"default_popup": "popup.html"
     },
     "web_accessible_resources": [
-	"scripts/load.js",
-	"scripts/rtl.js",
+	"load.js",
+	"rtl.js",
 	"rtl.css"
     ],
     "background": {
-	"scripts": ["scripts/background.js"]
+	"scripts": ["background.js"]
     },
     "permissions": [
 	"webNavigation",
