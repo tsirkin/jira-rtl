@@ -7,7 +7,9 @@ function wrapWithBdi (el){
     if(parent && parent.prop("tagName") == "BDI"){
 	return;
     }
-    if($(el).prop("tagName") == "LI"){
+    let hintedElements = ["LI"];
+    let tagName = $(el).prop("tagName");
+    if(hintedElements.indexOf(tagName) != -1){
 	hintHebrew(el);
 	return;
     }
@@ -18,18 +20,32 @@ const BLOCK_SEL = [
     "body li"
 ];
 
+function isRtlText(text){
+    if(text.charCodeAt(0) >= 0x590 && text.charCodeAt(0) <= 0x5FF){
+	return true;
+    }
+    return false;
+}
+
+function setInputRtl(el){
+    if(!$(el).val()) return;
+    if(isRtlText($(el).val())){
+	console.log("Rtl in input");
+	$(el).css("direction","rtl");
+    }else{
+	console.log("Ltr in input");
+	$(el).css("direction","ltr");
+    }
+}
+
 function hintHebrew(el){
     let text = $(el).text();
     if(!text) return;
-    let isHeb = false;
-    if(text.charCodeAt(0) >= 0x590 && text.charCodeAt(0) <= 0x5FF){
-	isHeb = true;
-    }
-    if(!isHeb) return;
+    let dir = isRtlText(text)?"rtl":"ltr";
     if($(el).prop("tagName") == "LI"){
-	$(el).parent().css("direction","rtl");
+	$(el).parent().css("direction",dir);
     }else
-	$(el).css("direction","rtl");
+	$(el).css("direction",dir);
 }
 
 function wrapEditedWithBdi (el){
@@ -128,27 +144,17 @@ function rtlPage(doc){
     for (let sel of selectors){
 	doc.querySelectorAll(sel).forEach((el) => wrapWithBdi(el));
     }
-    // let hintSelectors = [
-    // 	// TODO: the li block will have to be manually checked for the first character 
-    // 	".user-content-block li",
-    // ];
-    // for (let sel of hintSelectors){
-    // 	doc.querySelectorAll(sel).forEach((el) => hintHebrew(el));
-    // }
-    $("#description-val").on("click",function(e){
-	// console.log("descr clicked");
-	// $("#tinymce").find("p").each(el  => wrapWithBdi(el));
-	// wrapWithBdi($(this).find("p"));
-	rtlMCE();
+    // Any editing event on input (removing click & propertychange)
+    // $(document).on("propertychange change click keyup input paste","input",function(){
+    $(document).on("change keyup input paste","input",function(){
+	// console.log("Editing event on input elem");
+	setInputRtl(this);
     });
+    $("input").each(function(){
+	setInputRtl(this);
+    })
+    rtlMCE();
     
-    
-    // log
-    // TODO: the new/old do not work as those are td elements which discards bdi
-    // should wrap the inside text in div that takes the whole td space and set the bdi on this.
-    // $(".activity-new-val").each((idx,el) => {
-    //     wrapWithInnerBdi(el);
-    // });
 };
 // console.log("Loaded rtl");
 
