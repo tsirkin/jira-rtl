@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const ZipPlugin = require('zip-webpack-plugin');
 
 module.exports = env => {
     let plugins= [
@@ -29,8 +30,10 @@ module.exports = env => {
 	// use newer uglify plugin install by npm
 	// npm install uglifyjs-webpack-plugin --save-dev
 	// the old one is broken and does not support let
-	console.log("prod env");
 	plugins.push(new UglifyJsPlugin());
+	plugins.push(new ZipPlugin({
+	    filename: 'jira-rtl.zip'
+	}));
     }
     return {
 	entry: {
