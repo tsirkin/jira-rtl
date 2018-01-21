@@ -7,48 +7,36 @@ var JiraRtlController = require('./jira-rtl-controller');
 // Called when the user clicks on the browser action.
 document.addEventListener('DOMContentLoaded', function () {
     console.log("popup content loaded");
-    function getCurrentDomain(tabs){
-	var tab = tabs[0];
-	var url = tab.url;
-	var oUrl = new URL(url)
-	var domain = oUrl.hostname;
-	return domain;
-    }
-    function execInCurrentDomain(callback){
-	chrome.tabs.query({
-	    active: true,
-	    currentWindow: true
-	}, function(tabs) {
-	    let domain = getCurrentDomain(tabs);
-	    callback.call(window,domain);
-	});
-    }
     function switchRtl(ev,state){
 	let ctl = new JiraRtlController();
-	// TODO: also use chrome.browserAction.setIcon({path: icon}); to set the enabled/disabled icon.
 	if(state){
-	    execInCurrentDomain(function(domain){
-		console.log("Storing url : ",domain);
-		ctl.storeUrl(domain);
+	    ctl.execInCurrentDomain(async function(domain){
+		// console.log("Storing url : ",domain);
+		await ctl.storeUrl(domain);
 		ctl.injectRtl();
+		ctl.drawIcon()
 	    });
 	}else{
-	    execInCurrentDomain(function(domain){
-		ctl.removeUrl(domain);
+	    ctl.execInCurrentDomain(async function(domain){
+		await ctl.removeUrl(domain);
+		ctl.drawIcon()
 	    });
 	}
     }
     var toggleBtn = $("#enable-jira-rtl");
-    execInCurrentDomain(function(domain){
-	let ctl = new JiraRtlController();
-	ctl.checkUrl(domain).then(function(isUrlActive){
-	    toggleBtn.bootstrapSwitch({
-		state: !isUrlActive,
-		size:'small',
-		onColor:'success',
-		offColor:'danger',
-		onSwitchChange:switchRtl
-	    });
+    let ctl = new JiraRtlController();
+    ctl.checkCurrentUrl((isUrlActive,currentHostname) => {
+	console.log("Showing toggle button with state ",isUrlActive);
+	// Note that the button text/color is the opposite from the default
+	// as showing 'On' means that the plugin is Off for the current moment.
+	toggleBtn.bootstrapSwitch({
+	    state: isUrlActive,
+	    size:'small',
+	    onColor:'danger',
+	    onText:'Off',
+	    offColor:'success',
+	    offText:'On',
+	    onSwitchChange:switchRtl
 	});
     });
 });

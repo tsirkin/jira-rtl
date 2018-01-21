@@ -16,6 +16,7 @@ chrome.webNavigation.onCompleted.addListener(function(tab) {
 	    ctl.injectRtl();
 	    // TODO: also use chrome.browserAction.setIcon({path: icon}); to set the enabled/disabled icon.
 	});
+    ctl.drawIcon();
 });
 
 // chrome.browserAction.onClicked.addListener(function(tab) {

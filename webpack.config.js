@@ -71,7 +71,7 @@ module.exports = {
       // copy extension manifest and icons
       new CopyWebpackPlugin([
 	  { from: './app/manifest.json' },
-	  { context: './app/images', from: 'hand-**', to: 'images' }
+	  { context: './app/images', from: 'jira-rtl-**.png', to: 'images' }
       ])
   ]
 }
