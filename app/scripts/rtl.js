@@ -170,6 +170,10 @@ function rtlPage(doc){
 		"#summary-val",
 		// dashboard summary
 		"td.summary",
+		// dashboard activity
+		// TODO: looks like it does not work because that the description 
+		// on dashboard is put inside inner iframe.
+		"div.activity-item-description p",
 	];
     for (let sel of alignedSelectors){
 		doc.querySelectorAll(sel).forEach((el) => setAlignment(el));
@@ -177,11 +181,11 @@ function rtlPage(doc){
     // Any editing event on input (removing click & propertychange)
     // $(document).on("propertychange change click keyup input paste","input",function(){
     $(document).on("change keyup input paste","input",function(){
-	// console.log("Editing event on input elem");
-	setInputRtl(this);
+		// console.log("Editing event on input elem");
+		setInputRtl(this);
     });
     $("input").each(function(){
-	setInputRtl(this);
+		setInputRtl(this);
     })
     rtlMCE();
     
