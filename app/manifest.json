@@ -1,7 +1,7 @@
 {
     "name": "JiraRTL",
     "short_name": "JiraRTL",
-    "version": "0.1",
+    "version": "0.0.0.1",
     "manifest_version": 2,
     "description": "Enables RTL in Jira",
     "browser_action": {
