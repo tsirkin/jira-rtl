@@ -1,4 +1,4 @@
-
+global.ccWatcherCalls = 0;
 class RtlWatcher {
     constructor(){
 	this.observers = new WeakMap();
@@ -7,13 +7,31 @@ class RtlWatcher {
 	if(this.observers.has(observed)) return;
 	callback.call(null,observed,[]);
 	let config = {
-	    attributes: true,
+            // At the mean time disabling attribute watching as it is
+            // unlikely to be usefull and on the bad side it causes
+            // infinite event loop when changing css
+	    // attributes: true,
 	    childList: true,
 	    characterData: true,
 	    subtree: true
 	};
 	function _callback(mutations){
 	    console.log("inner callback called");
+            global.ccWatcherCalls++;
+            if(global.ccWatcherCalls > 1000){
+                //Avoid endless event loop hack
+                console.log("mutations %o",mutations);
+                return;
+            }
+            mutations.forEach(function(mutation){
+                if(mutation.addedNodes){
+                    mutation.addedNodes.forEach(function(node){
+                        if(node.tagName == "BDI"){
+                            return;
+                        }
+                    });
+                }
+            });
 	    callback.call(null,observed,mutations);
 	}
 	console.log("creating observer");
