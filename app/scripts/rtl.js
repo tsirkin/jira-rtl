@@ -1,19 +1,28 @@
 require('../css/rtl.css');
 var $ = require("jquery");
 var RtlWatcher = require("./rtl-watcher");
+const RtlRegexp = require('unicode-10.0.0/Bidi_Class/Right_To_Left/regex.js');
+const LtrRegexp = require('unicode-10.0.0/Bidi_Class/Left_To_Right/regex.js');
 
 function wrapWithBdi (el){
     let parent = $(el).parent();
     if(parent && parent.prop("tagName") == "BDI"){
-	return;
+		return;
     }
     let hintedElements = ["LI"];
     let tagName = $(el).prop("tagName");
     if(hintedElements.indexOf(tagName) != -1){
-	hintHebrew(el);
-	return;
+		hintHebrew(el);
+		return;
     }
     $(el).wrap("<bdi></bdi>");
+}
+function setAlignment(el){
+	let text = $(el).text();
+	console.log("setting alignment for text ",text);
+    if(!text) return;
+    let dir = isRtlText(text)?"right":"left";
+	$(el).css("text-align",dir);
 }
 const BLOCK_SEL = [
     "body p",
@@ -21,20 +30,31 @@ const BLOCK_SEL = [
 ];
 
 function isRtlText(text){
-    if(text.charCodeAt(0) >= 0x590 && text.charCodeAt(0) <= 0x5FF){
-	return true;
-    }
-    return false;
+	if(!text || text.length == 0){
+		return false;
+	}
+	for (let i=0;i < text.length;i++){
+		let c = text.charAt(i);
+		// TODO: probably should replace by object lookup to make it faster.
+		if(RtlRegexp.test(c)){
+			return true;
+		}
+		if(LtrRegexp.test(c)){
+			return false;
+		}
+	}
+	return false;
 }
 
 function setInputRtl(el){
-    if(!$(el).val()) return;
+	if(!$(el).val()) 
+		return;
     if(isRtlText($(el).val())){
-	console.log("Rtl in input");
-	$(el).css("direction","rtl");
+		console.log("Rtl in input");
+		$(el).css("direction","rtl");
     }else{
-	console.log("Ltr in input");
-	$(el).css("direction","ltr");
+		console.log("Ltr in input");
+		$(el).css("direction","ltr");
     }
 }
 
@@ -143,7 +163,17 @@ function rtlPage(doc){
     ];
     for (let sel of selectors){
 	doc.querySelectorAll(sel).forEach((el) => wrapWithBdi(el));
-    }
+	}
+	// Elements to be aligned to right
+	let alignedSelectors = [
+		// summary header
+		"#summary-val",
+		// dashboard summary
+		"td.summary",
+	];
+    for (let sel of alignedSelectors){
+		doc.querySelectorAll(sel).forEach((el) => setAlignment(el));
+	}
     // Any editing event on input (removing click & propertychange)
     // $(document).on("propertychange change click keyup input paste","input",function(){
     $(document).on("change keyup input paste","input",function(){
