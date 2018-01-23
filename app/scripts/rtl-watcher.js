@@ -1,4 +1,4 @@
-global.ccWatcherCalls = 0;
+// global.ccWatcherCalls = 0;
 class RtlWatcher {
     constructor(){
 	this.observers = new WeakMap();
@@ -17,12 +17,14 @@ class RtlWatcher {
 	};
 	function _callback(mutations){
 	    console.log("inner callback called");
-            global.ccWatcherCalls++;
-            if(global.ccWatcherCalls > 1000){
-                //Avoid endless event loop hack
-                console.log("mutations %o",mutations);
-                return;
-            }
+            // This of cause is not a solution, it maybe workable to
+            // check the interval between callback.
+            // global.ccWatcherCalls++;
+            // if(global.ccWatcherCalls > 1000){
+            //     //Avoid endless event loop hack
+            //     console.log("mutations %o",mutations);
+            //     return;
+            // }
             mutations.forEach(function(mutation){
                 if(mutation.addedNodes){
                     mutation.addedNodes.forEach(function(node){
