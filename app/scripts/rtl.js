@@ -23,6 +23,7 @@ function setDirection(el){
         let firstLI = $(el).parent().children().first();
         let dir = isRtlText(firstLI.text())?"rtl":"ltr";
         $(firstLI).css("direction",dir);
+        $(firstLI).parent().css("direction",dir);
         return;
     }
     let text = $(el).text();
