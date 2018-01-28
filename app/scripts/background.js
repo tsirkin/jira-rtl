@@ -18,7 +18,10 @@ chrome.webNavigation.onCompleted.addListener(function(tab) {
 	});
     ctl.drawIcon();
 });
-
+chrome.tabs.onActivated.addListener(function(tab) {
+    let ctl = new JiraRtlController();
+    ctl.drawIcon();
+});
 // chrome.browserAction.onClicked.addListener(function(tab) {
 //     var url = tab.url;
 //     var oUrl = new URL(url)
