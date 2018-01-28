@@ -32,10 +32,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	toggleBtn.bootstrapSwitch({
 	    state: isUrlActive,
 	    size:'small',
-	    onColor:'danger',
-	    onText:'Off',
-	    offColor:'success',
-	    offText:'On',
+	    onColor:'success',
+	    onText:'ON',
+	    offColor:'default',
+	    offText:'OFF',
 	    onSwitchChange:switchRtl
 	});
     });
