@@ -40,6 +40,10 @@ function setAlignment(el){
     $(el).css("text-align",dir);
 }
 
+function setWidth(el){
+    $(el).css("width","100%");
+}
+
 const BLOCK_SEL = [
     "body p",
     "body li"
@@ -183,17 +187,43 @@ function rtlPage(doc){
     // Elements to be aligned to right
     let alignedSelectors = [
         // summary header
-        "#summary-val",
+        // "#summary-val", - it is better to center this with h1 tag style
         // dashboard summary
         "td.summary",
         // dashboard activity
         // TODO: looks like it does not work because that the description 
         // on dashboard is put inside inner iframe.
         "div.activity-item-description p",
+        // Epic link
+        // ".aui-label.ghx-label-3"
+        ".aui-label",
+        // Not editable epic lable
+        ".type-gh-epic-label",
+        // Disabled custom fields
+        ".editable-field.inactive .shorten",
+        ".editable-field.inactive",
+        // Issues in Epic
+        ".nav.ghx-summary",
     ];
     for (let sel of alignedSelectors){
         doc.querySelectorAll(sel).forEach((el) => setAlignment(el));
     }
+    let alignCenterSelectors = [
+        "h1",
+      ];
+    for (let sel of alignCenterSelectors){
+        doc.querySelectorAll(sel).forEach((el) => {
+            $(el).css("text-align","center");
+        });
+    }
+    let fixWidthSelectors = [
+        ".property-list .item .value.editable-field"
+    ];
+    // Disabling as most of the time it will make the custom field being
+    // to far from the english field name which looks broken 
+    // for (let sel of alignedSelectors){
+    //     doc.querySelectorAll(sel).forEach((el) => setWidth(el));
+    // }
     // Any editing event on input (removing click & propertychange)
     // $(document).on("propertychange change click keyup input paste","input",function(){
     $(document).on("change keyup input paste","input",function(){
