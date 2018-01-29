@@ -180,11 +180,16 @@ function rtlPage(doc){
         // TODO: we should *in global case* take care of both p and ul tags
         ".action-body p",
         ".action-body ul",
-	// Issue in Kanban view
-	".ghx-summary .ghx-inner",
     ];
     for (let sel of selectors){
         doc.querySelectorAll(sel).forEach((el) => wrapWithBdi(el));
+    }
+    let directionSelectors = [
+	// Issue in Kanban view
+	".ghx-summary .ghx-inner",
+    ];
+    for (let sel of directionSelectors){
+        doc.querySelectorAll(sel).forEach((el) => setDirection(el));
     }
     // Elements to be aligned to right
     let alignedSelectors = [
