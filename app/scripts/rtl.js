@@ -180,6 +180,8 @@ function rtlPage(doc){
         // TODO: we should *in global case* take care of both p and ul tags
         ".action-body p",
         ".action-body ul",
+	// Issue in Kanban view
+	".ghx-summary .ghx-inner",
     ];
     for (let sel of selectors){
         doc.querySelectorAll(sel).forEach((el) => wrapWithBdi(el));
@@ -204,6 +206,8 @@ function rtlPage(doc){
         ".editable-field.inactive",
         // Issues in Epic
         ".nav.ghx-summary",
+	// Issue in Kanban view
+	".ghx-summary .ghx-inner",
     ];
     for (let sel of alignedSelectors){
         doc.querySelectorAll(sel).forEach((el) => setAlignment(el));
