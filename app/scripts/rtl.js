@@ -184,6 +184,13 @@ function rtlPage(doc){
     for (let sel of selectors){
         doc.querySelectorAll(sel).forEach((el) => wrapWithBdi(el));
     }
+    let directionSelectors = [
+	// Issue in Kanban view
+	".ghx-summary .ghx-inner",
+    ];
+    for (let sel of directionSelectors){
+        doc.querySelectorAll(sel).forEach((el) => setDirection(el));
+    }
     // Elements to be aligned to right
     let alignedSelectors = [
         // summary header
@@ -204,6 +211,8 @@ function rtlPage(doc){
         ".editable-field.inactive",
         // Issues in Epic
         ".nav.ghx-summary",
+	// Issue in Kanban view
+	".ghx-summary .ghx-inner",
     ];
     for (let sel of alignedSelectors){
         doc.querySelectorAll(sel).forEach((el) => setAlignment(el));
