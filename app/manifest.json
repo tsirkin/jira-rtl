@@ -1,7 +1,7 @@
 {
     "name": "JiraRTL",
     "short_name": "JiraRTL",
-    "version": "0.0.0.4",
+    "version": "0.0.0.5",
     "manifest_version": 2,
     "description": "Enables well aligned and properly established direction of Hebrew and Arabic RTL text in Jira.",
     "icons": {
