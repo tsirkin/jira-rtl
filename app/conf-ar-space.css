@@ -1,0 +1,142 @@
+#main {
+    text-align: right !important;
+    direction: rtl !important;
+}
+
+.editable-field{
+    direction:rtl !important;
+}
+.mceContentBody {
+    text-align: right !important;
+	direction: rtl !important;
+}
+
+#splitter  {
+    text-align: right !important;
+}
+.plugin_pagetree_childtoggle_container {
+	float: right !important;
+	width: 24px !important;
+}
+
+.aui-toolbar .toolbar-group {
+    float: right !important;
+}
+
+.wiki-content p,   .wiki-content ul,   .wiki-content li  {
+    font-family: "Arabic Transparent" !important;
+    font-size: 18px !important;
+	line-height: 25px !important;
+}
+
+span.icon, a.icon {
+    height: 12px !important;
+}
+
+#splitter-sidebar .plugin_pagetree li a, #splitter-sidebar .plugin_pagetree ul {
+	font-size: 12pt !important;
+}
+
+#splitter-sidebar .plugin_pagetree li a {
+	float: right !important;
+	direction: rtl !important;
+}
+
+div.plugin_pagetree ul.plugin_pagetree_children_list li .plugin_pagetree_children_content {
+    float: right !important;
+}
+
+#splitter-sidebar .plugin_pagetree ul {
+    padding-right: 10px !important;
+    padding-left: 0px !important;
+}
+
+.ajs-menu-bar {
+    float: left !important;
+}
+
+h1 #content-title {
+    width: 96% !important;
+}
+
+h1.pagetitle img {
+    float: right !important;
+} 
+ 
+ h1.pagetitle img {
+    margin: 0 0 0 0.3em  !important;
+}
+
+.quick-search {
+    float: left !important;
+}
+
+#breadcrumbs li {
+	background:	url("../images/decoration/white_breadcrumbs_indicator_rtl.png") no-repeat scroll right center transparent !important;
+    float: right !important;
+    margin: 0 0 0 0.2em !important;
+    padding-right: 15px !important;
+    padding-left: 0 !important;
+}
+
+.vsplitbar {
+    z-index: 5 !important;
+}
+
+.children-show-hide.icon {
+    left: auto !important;
+    right: -12px ;
+}
+
+span.icon, a.icon {
+    text-align: right;
+}
+
+.ui-tree li {
+    padding: 0 1.7em 0 0 !important;
+}
+
+.ui-tree li a {
+    float: right !important;
+	padding: 0 22px 0 0 !important;
+	background-position: right 50% !important;
+}
+
+.ui-tree li .click-zone {
+    float: right !important;
+	margin-left: 0 !important;
+	margin-right: -28px !important;
+	width: 18px !important;
+}
+
+div.tree-message {
+    float: left !important;
+}
+
+.ui-tree li .button-panel {
+    float: right !important;
+    margin-right: 10px;
+    margin-left: 0 !important;
+}
+
+#navigation .ajs-menu-bar {
+    direction: ltr !important;
+}
+
+span.icon, a.icon {
+    text-indent: 9999em !important;
+}
+
+.panelMacro table {
+    text-align: right !important;
+}
+
+td, th {
+    text-align: right;
+  vertical-align: top;
+}
+
+.flexigrid div.hDivBox {
+    float: right !important;
+    padding-right: 0 !important;
+}
