@@ -1,3 +1,7 @@
 #description-val{
     width:100% !important;
 }
+
+bdi {
+    text-align: initial !important;
+}
