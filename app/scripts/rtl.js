@@ -17,6 +17,13 @@ function wrapWithBdi (el){
     $(el).wrap("<bdi></bdi>");
 }
 
+function setAutoDirection(el){
+    // unset theany alignment already applied
+    $(el).css("text-align","initial");
+    // set auto direction
+    $(el).attr("dir","auto");
+}
+
 function setDirection(el){
     let tagName = $(el).prop("tagName");
     if(tagName == "LI"){
@@ -211,12 +218,26 @@ function rtlPage(doc){
         ".editable-field.inactive",
         // Issues in Epic
         ".nav.ghx-summary",
-	// Issue in Kanban view
-	".ghx-summary .ghx-inner",
+        // Issue in Kanban view
+        ".ghx-summary .ghx-inner",
     ];
     for (let sel of alignedSelectors){
         doc.querySelectorAll(sel).forEach((el) => setAlignment(el));
     }
+    // fix custom fields alignment
+    $("[id^='customfield_']").each(function(i,el){
+        if(this.nodeName == "TEXTAREA"){
+            setAutoDirection(this);
+            return true;
+        }
+        if(this.nodeType == Node.TEXT_NODE){
+            wrapWithBdi(this);
+            return true;
+        }
+        $(el).find(".flooded").each(function(){
+            wrapWithBdi(this);
+        })
+    })
     let alignCenterSelectors = [
         "h1",
       ];
