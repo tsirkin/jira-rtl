@@ -224,12 +224,12 @@ function rtlPage(doc){
     for (let sel of alignedSelectors){
         doc.querySelectorAll(sel).forEach((el) => setAlignment(el));
     }
+    $("textarea").each(function(i,el){
+        setAutoDirection(this);
+        return true;
+    });
     // fix custom fields alignment
     $("[id^='customfield_']").each(function(i,el){
-        if(this.nodeName == "TEXTAREA"){
-            setAutoDirection(this);
-            return true;
-        }
         if(this.nodeType == Node.TEXT_NODE){
             wrapWithBdi(this);
             return true;
