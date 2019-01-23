@@ -173,8 +173,6 @@ function rtlPage(doc){
         // discription p and li blocks
         ".user-content-block p",
         ".issue-link-summary",
-        // dashboard summary
-        "td.summary p",
         // summary header
         "#summary-val",
         // summary links to another tasks
@@ -202,6 +200,8 @@ function rtlPage(doc){
     let alignedSelectors = [
         // summary header
         // "#summary-val", - it is better to center this with h1 tag style
+        // dashboard summary paragraph
+        "td.summary p",
         // dashboard summary
         "td.summary",
         // dashboard activity
@@ -222,7 +222,13 @@ function rtlPage(doc){
         ".ghx-summary .ghx-inner",
     ];
     for (let sel of alignedSelectors){
-        doc.querySelectorAll(sel).forEach((el) => setAlignment(el));
+        doc.querySelectorAll(sel).forEach(function(el){
+            setAutoDirection(el);
+            // note that we first set the direction that will also change the
+            // text-align to auto by default and then check if there is rtl text
+            // to set the text-align to right
+            setAlignment(el);
+        });
     }
     $("textarea").each(function(i,el){
         setAutoDirection(this);
