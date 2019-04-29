@@ -35,6 +35,32 @@ function wrapWithBdi (el){
     $(el).wrap("<bdi></bdi>");
 }
 
+function getTextNodesIn(node, includeWhitespaceNodes) {
+    var textNodes = [], nonWhitespaceMatcher = /\S/;
+
+    function getTextNodes(node) {
+        if (node.nodeType == 3) {
+            if (includeWhitespaceNodes || nonWhitespaceMatcher.test(node.nodeValue)) {
+                textNodes.push(node);
+            }
+        } else {
+            for (var i = 0, len = node.childNodes.length; i < len; ++i) {
+                getTextNodes(node.childNodes[i]);
+            }
+        }
+    }
+
+    getTextNodes(node);
+    return textNodes;
+}
+
+function wrapLineBreaksWithBdi (el){
+    let textNodes = getTextNodesIn(el,false);
+    for(let i=0;i < textNodes.length;i++){
+        wrapWithBdi(textNodes[i]);
+    }
+}
+
 function setAutoDirection(el){
     // unset theany alignment already applied
     $(el).css("text-align","initial");
@@ -203,13 +229,21 @@ function rtlPage(doc){
         // TODO: we should *in global case* take care of both p and ul tags
         ".action-body p",
         ".action-body ul",
+        // in new jira cloud the main issue body
+        ".ak-renderer-document p",
+        // kanban popup with issue content in new cloud gui
+        '[role="presentation"] p'
     ];
     for (let sel of selectors){
+        doc.querySelectorAll(sel).forEach((el) => wrapLineBreaksWithBdi(el));
         doc.querySelectorAll(sel).forEach((el) => wrapWithBdi(el));
     }
     let directionSelectors = [
 	// Issue in Kanban view
-	".ghx-summary .ghx-inner",
+    ".ghx-summary",
+    ".ghx-summary .ghx-inner",
+    //
+    "h1"
     ];
     for (let sel of directionSelectors){
         doc.querySelectorAll(sel).forEach((el) => setDirection(el));
@@ -237,6 +271,7 @@ function rtlPage(doc){
         // Issues in Epic
         ".nav.ghx-summary",
         // Issue in Kanban view
+        ".ghx-summary",
         ".ghx-summary .ghx-inner",
     ];
     for (let sel of alignedSelectors){
