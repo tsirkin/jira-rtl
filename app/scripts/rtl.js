@@ -53,12 +53,44 @@ function getTextNodesIn(node, includeWhitespaceNodes) {
     getTextNodes(node);
     return textNodes;
 }
-
-function wrapLineBreaksWithBdi (el){
-    let textNodes = getTextNodesIn(el,false);
-    for(let i=0;i < textNodes.length;i++){
-        wrapWithBdi(textNodes[i]);
+let runOnceMap = new WeakMap();
+function wrapLineBreaksWithPara (el){
+    if(!el) return;
+    if($(el).prop("tagName") == "BDI") return;
+    if($(el).prop("tagName") == "LI"){
+        setDirection(el);
+        return;
     }
+    if($(el).prop("tagName") != "P" &&
+       $(el).prop("tagName") != "LI" ) return;
+    if(runOnceMap.has(el)){
+        return;
+    }
+    runOnceMap.set(el,true)
+    let textNodes = getTextNodesIn(el,false);
+    let parents = [];
+    for(let i=0;i < textNodes.length;i++){
+        let parent = textNodes[i].parentNode;
+        if(parent){
+            // console.log("tag attr of the parent "+$(parent).attr("data-jirartl"));
+            if($(parent).prop("tagName") == "BDI" || $(textNodes[i]).prop("tagName") == "BDI"){
+                return;
+            }
+        }
+        if(isRtlText($(textNodes[i]).text())){
+            if(parent){
+                parents.push(parent);
+                console.log("tag name of the parent %o, tag name of the element %o,parent %o,attribute %o,outer %o",$(parent).prop("tagName"),$(textNodes[i]).prop("tagName"),parent,$(parent).attr("data-jirartl"),parent.outerHTML);
+            }
+            if(parent && $(parent).attr("data-jirartl") == "1"){
+                continue;
+            }
+            $(textNodes[i]).wrap("<div data-node-type='unknownBlock' data-jirartl='1' style='display:inline-block;width:100%;text-align:right;'></div>");
+        }
+    }
+    // if(el.firstChild && el.firstChild.tagName != "BDI"){
+    //     el.innerHTML = "<bdi data-jirartl='1'>"+el.innerHTML+"</bdi>";
+    // }
 }
 
 function setAutoDirection(el){
@@ -205,6 +237,7 @@ function rtlMCE(){
 }
 
 function rtlPage(doc){
+    window.stopRtlObserver();
     // console.log("rtlPage called");
     doc.querySelectorAll(".editable-field").forEach((el) => {
         // Don't wrap a description-val as this is a mce editor's place.
@@ -213,6 +246,23 @@ function rtlPage(doc){
         }
         wrapWithBdi(el);
     });
+    let wrapWithPara = [
+        // in new jira cloud the main issue body
+        ".ak-renderer-document p",
+        // kanban popup with issue content in new cloud gui
+        '[role="presentation"] p',
+        // new editor
+        '.ak-editor-content-area p',
+    ];
+    for (let sel of wrapWithPara){
+        doc.querySelectorAll(sel).forEach((el) => wrapLineBreaksWithPara(el));
+        // doc.querySelectorAll(sel).forEach(
+        //     el => $(el).on("click change keyup input paste",function(){
+        //         wrapLineBreaksWithPara(el);
+        //     })
+        // )
+    }
+
     let selectors = [
         // discription p and li blocks
         ".user-content-block p",
@@ -231,11 +281,10 @@ function rtlPage(doc){
         ".action-body ul",
         // in new jira cloud the main issue body
         ".ak-renderer-document p",
-        // kanban popup with issue content in new cloud gui
+        // // kanban popup with issue content in new cloud gui
         '[role="presentation"] p'
     ];
     for (let sel of selectors){
-        doc.querySelectorAll(sel).forEach((el) => wrapLineBreaksWithBdi(el));
         doc.querySelectorAll(sel).forEach((el) => wrapWithBdi(el));
     }
     let directionSelectors = [
@@ -323,13 +372,19 @@ function rtlPage(doc){
         setInputRtl(this);
     })
     rtlMCE();
-    
+    setTimeout(window.restartRtlObserver,1000);
 };
 // console.log("Loaded rtl");
 
 class Rtl {
     startRtlWatching(){
         let watcher = new RtlWatcher();
+        window.restartRtlObserver = function(){
+            watcher.observe(document.body,rtlPage, true);
+        };
+        window.stopRtlObserver = function(){
+            watcher.disconnect(document.body);
+        };
         watcher.observe(document.body,rtlPage);
         rtlMCE();
     }
