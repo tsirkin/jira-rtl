@@ -243,7 +243,9 @@ function rtlPage(doc){
     ".ghx-summary",
     ".ghx-summary .ghx-inner",
     //
-    "h1"
+    "h1",
+    // preposed by dgolm from github
+    "p"
     ];
     for (let sel of directionSelectors){
         doc.querySelectorAll(sel).forEach((el) => setDirection(el));
