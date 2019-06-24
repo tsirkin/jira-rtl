@@ -157,28 +157,32 @@ function rtlEditedText(doc,mutations){
     }
 }
 
-function rtlMCE(){
-    var iframes = document.querySelectorAll("iframe");
+function rtlIframe(docBody){
+    var iframes = docBody.querySelectorAll("iframe");
     iframes.forEach((ifrm) => {
         // console.log("ifrm : "+ifrm);
         var win = ifrm.contentWindow; // reference to iframe's window
         // reference to document in iframe
+        let iframeDoc;
         try{
-            var doc = ifrm.contentDocument || ifrm.contentWindow.document;
+            iframeDoc = ifrm.contentDocument || ifrm.contentWindow.document;
         }catch(e){
             // We don't have permissions to read the iframe (i.e. a cross site out of jira site).
             return;
         }
-        var elMCE = doc.getElementById("tinymce");
-        if(!elMCE) return;
         let watcher = new RtlWatcher();
-        watcher.observe(doc.body,rtlEditedText);
+        var elMCE = iframeDoc.getElementById("tinymce");
+        if(elMCE) {
+            watcher.observe(iframeDoc.body,rtlEditedText);
+        }else{
+            watcher.observe(iframeDoc.body,rtlPage);
+        }
     });
 }
 
-function rtlPage(doc){
+function rtlPage(docBody){
     console.log("rtlPage called");
-    doc.querySelectorAll(".editable-field").forEach((el) => {
+    docBody.querySelectorAll(".editable-field").forEach((el) => {
         // Don't wrap a description-val as this is a mce editor's place.
         if(el.id && el.id == "description-val"){
             return;
@@ -207,7 +211,7 @@ function rtlPage(doc){
         '[role="presentation"] p'
     ];
     for (let sel of selectors){
-        doc.querySelectorAll(sel).forEach((el) => wrapWithBdi(el));
+        docBody.querySelectorAll(sel).forEach((el) => wrapWithBdi(el));
     }
     let directionSelectors = [
 	// Issue in Kanban view
@@ -219,7 +223,7 @@ function rtlPage(doc){
     "p"
     ];
     for (let sel of directionSelectors){
-        doc.querySelectorAll(sel).forEach((el) => setDirection(el));
+        docBody.querySelectorAll(sel).forEach((el) => setDirection(el));
     }
     // Elements to be aligned to right
     let alignedSelectors = [
@@ -248,7 +252,7 @@ function rtlPage(doc){
         ".ghx-summary .ghx-inner",
     ];
     for (let sel of alignedSelectors){
-        doc.querySelectorAll(sel).forEach(function(el){
+        docBody.querySelectorAll(sel).forEach(function(el){
             setAutoDirection(el);
             // note that we first set the direction that will also change the
             // text-align to auto by default and then check if there is rtl text
@@ -274,7 +278,7 @@ function rtlPage(doc){
         "h1",
       ];
     for (let sel of alignCenterSelectors){
-        doc.querySelectorAll(sel).forEach((el) => {
+        docBody.querySelectorAll(sel).forEach((el) => {
             $(el).css("text-align","center");
         });
     }
@@ -288,14 +292,14 @@ function rtlPage(doc){
     // }
     // Any editing event on input (removing click & propertychange)
     // $(document).on("propertychange change click keyup input paste","input",function(){
-    $(document).on("change keyup input paste","input",function(){
+    $(docBody).on("change keyup input paste","input",function(){
         // console.log("Editing event on input elem");
         setInputRtl(this);
     });
     $("input").each(function(){
         setInputRtl(this);
     })
-    rtlMCE();
+    rtlIframe(docBody);
     
 };
 // console.log("Loaded rtl");
@@ -304,7 +308,7 @@ class Rtl {
     startRtlWatching(){
         let watcher = new RtlWatcher();
         watcher.observe(document.body,rtlPage);
-        rtlMCE();
+        rtlIframe(document.body);
     }
 }
 
