@@ -35,32 +35,6 @@ function wrapWithBdi (el){
     $(el).wrap("<bdi></bdi>");
 }
 
-function getTextNodesIn(node, includeWhitespaceNodes) {
-    var textNodes = [], nonWhitespaceMatcher = /\S/;
-
-    function getTextNodes(node) {
-        if (node.nodeType == 3) {
-            if (includeWhitespaceNodes || nonWhitespaceMatcher.test(node.nodeValue)) {
-                textNodes.push(node);
-            }
-        } else {
-            for (var i = 0, len = node.childNodes.length; i < len; ++i) {
-                getTextNodes(node.childNodes[i]);
-            }
-        }
-    }
-
-    getTextNodes(node);
-    return textNodes;
-}
-
-function wrapLineBreaksWithBdi (el){
-    let textNodes = getTextNodesIn(el,false);
-    for(let i=0;i < textNodes.length;i++){
-        wrapWithBdi(textNodes[i]);
-    }
-}
-
 function setAutoDirection(el){
     // unset theany alignment already applied
     $(el).css("text-align","initial");
@@ -85,7 +59,7 @@ function setDirection(el){
 
 function setAlignment(el){
     let text = $(el).text();
-    console.log("setting alignment for text ",text);
+    // console.log("setting alignment for text ",text);
     if(!text) return;
     let dir = isRtlText(text)?"right":"left";
     $(el).css("text-align",dir);
@@ -235,7 +209,6 @@ function rtlPage(doc){
         '[role="presentation"] p'
     ];
     for (let sel of selectors){
-        doc.querySelectorAll(sel).forEach((el) => wrapLineBreaksWithBdi(el));
         doc.querySelectorAll(sel).forEach((el) => wrapWithBdi(el));
     }
     let directionSelectors = [
