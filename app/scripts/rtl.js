@@ -95,10 +95,8 @@ function setInputRtl(el){
     if(!$(el).val()) 
         return;
     if(isRtlText($(el).val())){
-        console.log("Rtl in input");
         $(el).css("direction","rtl");
     }else{
-        console.log("Ltr in input");
         $(el).css("direction","ltr");
     }
 }
@@ -179,7 +177,7 @@ function rtlMCE(){
 }
 
 function rtlPage(doc){
-    // console.log("rtlPage called");
+    console.log("rtlPage called");
     doc.querySelectorAll(".editable-field").forEach((el) => {
         // Don't wrap a description-val as this is a mce editor's place.
         if(el.id && el.id == "description-val"){
