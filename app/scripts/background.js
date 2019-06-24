@@ -19,25 +19,32 @@
 var JiraRtlController = require('./jira-rtl-controller');
 
 // onDOMContentLoaded?
-chrome.webNavigation.onCompleted.addListener(function(tab) {
+chrome.webNavigation.onCompleted.addListener(function (tab) {
     var url = tab.url;
     var oUrl = new URL(url)
     var domain = oUrl.hostname;
     console.log('In webNavigation.onCompleted');
     let ctl = new JiraRtlController();
-    if(!url || !domain) return;
+    if (!url || !domain) return;
     ctl
-	.onActiveUrl(domain)
-	.then(function(urls) {
+        .onActiveUrl(domain)
+        .then(function (urls) {
             console.log('Url in list');
-	    ctl.injectRtl();
-	    // TODO: also use chrome.browserAction.setIcon({path: icon}); to set the enabled/disabled icon.
-	});
+            ctl.injectRtl();
+            // TODO: also use chrome.browserAction.setIcon({path: icon}); to set the enabled/disabled icon.
+        });
     ctl.drawIcon();
 });
-chrome.tabs.onActivated.addListener(function(tab) {
+chrome.tabs.onActivated.addListener(function (tabId) {
     let ctl = new JiraRtlController();
     ctl.drawIcon();
+    if (tabId) {
+        ctl.checkCurrentUrl((isUrlActive, currentHostname) => {
+            if(isUrlActive){
+                ctl.injectRtl();
+            }
+        });
+    }
 });
 // chrome.browserAction.onClicked.addListener(function(tab) {
 //     var url = tab.url;
