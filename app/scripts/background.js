@@ -20,6 +20,9 @@ var JiraRtlController = require('./jira-rtl-controller');
 
 // onDOMContentLoaded?
 chrome.webNavigation.onCompleted.addListener(function (tab) {
+    if (chrome.runtime.lastError) {
+        console.log('problem with quering the tabs in onCompleted');
+    }
     var url = tab.url;
     var oUrl = new URL(url)
     var domain = oUrl.hostname;
@@ -31,14 +34,17 @@ chrome.webNavigation.onCompleted.addListener(function (tab) {
         .then(function (urls) {
             // console.log('Url in list');
             ctl.injectRtl();
-            // TODO: also use chrome.browserAction.setIcon({path: icon}); to set the enabled/disabled icon.
         });
     ctl.drawIcon();
 });
-chrome.tabs.onActivated.addListener(function (tabId) {
+chrome.tabs.onActivated.addListener(function (activeInfo) {
+    // Need a timeout due to a known bug: https://stackoverflow.com/questions/67806779/im-getting-an-error-tabs-cannot-be-edited-right-now-user-may-be-dragging-a-ta
+    if (chrome.runtime.lastError) {
+        console.log('problem with quering the tabs in onActivated');
+    }
     let ctl = new JiraRtlController();
     ctl.drawIcon();
-    if (tabId) {
+    if (activeInfo.tabId) {
         ctl.checkCurrentUrl((isUrlActive, currentHostname) => {
             if (isUrlActive) {
                 ctl.injectRtl();

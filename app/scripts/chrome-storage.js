@@ -77,8 +77,8 @@ class BaseChromeStorage {
 		var area = this.area;
 		return new Promise((resolve, reject) => {
 			area.remove(key, function (values) {
-				if (runtime.lastError && reject)
-					reject(runtime.lastError);
+				if (chrome.runtime.lastError && reject)
+					reject(chrome.runtime.lastError);
 				resolve();
 			});
 		});

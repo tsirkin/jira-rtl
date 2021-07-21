@@ -65,19 +65,33 @@ class JiraRtlController {
         chrome.tabs.executeScript(null, { file: 'load.js' });
     }
     getCurrentDomain(tabs) {
+        if (!tabs) return;
         var tab = tabs[0];
         var url = tab.url;
-        var oUrl = new URL(url)
-        var domain = oUrl.hostname;
-        return domain;
+        try {
+            var oUrl = new URL(url)
+            var domain = oUrl.hostname;
+            return domain;
+        } catch (e) {
+            return ""
+        }
     }
     execInCurrentDomain(callback) {
+        let that = this;
         chrome.tabs.query({
             active: true,
             currentWindow: true
         }, (tabs) => {
+            if (chrome.runtime.lastError) {
+                console.log('problem with quering the tabs in execInCurrentDomain');
+                setTimeout(() => {
+                    that.execInCurrentDomain(callback)
+                }, 100);
+            }
             let domain = this.getCurrentDomain(tabs);
-            callback.call(this, domain);
+            if (domain) {
+                callback.call(this, domain);
+            }
         });
     }
     checkCurrentUrl(callback) {
