@@ -303,6 +303,8 @@ function rtlPage(docBody) {
         // Issue in Kanban view
         ".ghx-summary",
         ".ghx-summary .ghx-inner",
+        // cloud installation issues table
+        '[data-testid="native-issue-table.ui.issue-row"] td'
     ];
     for (let sel of alignedSelectors) {
         docBody.querySelectorAll(sel).forEach(function (el) {
