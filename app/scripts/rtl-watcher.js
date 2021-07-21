@@ -52,6 +52,8 @@ class RtlWatcher {
                     });
                 }
             });
+            console.log("calling on mutations %o", mutations)
+            //debugger
             callback.call(null, observed, mutations);
         }
         console.log("creating observer");

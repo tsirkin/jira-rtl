@@ -29,7 +29,7 @@ chrome.webNavigation.onCompleted.addListener(function (tab) {
     ctl
         .onActiveUrl(domain)
         .then(function (urls) {
-            console.log('Url in list');
+            // console.log('Url in list');
             ctl.injectRtl();
             // TODO: also use chrome.browserAction.setIcon({path: icon}); to set the enabled/disabled icon.
         });
@@ -40,17 +40,9 @@ chrome.tabs.onActivated.addListener(function (tabId) {
     ctl.drawIcon();
     if (tabId) {
         ctl.checkCurrentUrl((isUrlActive, currentHostname) => {
-            if(isUrlActive){
+            if (isUrlActive) {
                 ctl.injectRtl();
             }
         });
     }
 });
-// chrome.browserAction.onClicked.addListener(function(tab) {
-//     var url = tab.url;
-//     var oUrl = new URL(url)
-//     var domain = oUrl.hostname;
-//     let ctl = new st.JiraRtlController();
-//     ctl.storeUrl(domain);
-//     injectRtl();
-// });
