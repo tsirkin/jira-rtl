@@ -105,7 +105,7 @@ function setProseMirrorDirection() {
             }
             // Be carefull here to define the style selector exaclty in the way the browser will store it
             // or find a way to normalize it, otherwise the remove rule will not be able to remove it.
-            let childSelector = `.${clazz}.ProseMirror ${tagName.toLowerCase()}:nth-child(${pidx + 1})`;
+            let childSelector = `.${clazz}.ProseMirror > ${tagName.toLowerCase()}:nth-child(${pidx + 1})`;
             if (!text) {
                 styleLib.removeRule("jira-rtl-prose-mirror", childSelector);
                 return;
@@ -160,7 +160,7 @@ function isRtlText(text) {
 
 function setInputRtl(el) {
     let tagName = $(el).prop("tagName");
-    console.log("tag name in setInputRtl %o", tagName)
+    // console.log("tag name in setInputRtl %o", tagName)
     if (!$(el).val())
         return;
     if (isRtlText($(el).val())) {
@@ -286,6 +286,18 @@ function rtlPage(docBody) {
     for (let sel of directionSelectors) {
         docBody.querySelectorAll(sel).forEach((el) => setDirection(el));
     }
+    // list inside rich text render on cloud
+    $('.ak-ul,.ak-ol').each((idx, listElem) => {
+        if (shouldSkipNode(listElem)) return;
+        let text = $(listElem).children('li').first().text()
+        if (isRtlText(text)) {
+            $(listElem).css('direction', 'rtl')
+            $(listElem).css('padding-right', '24px')
+        } else {
+            $(listElem).css('direction', 'ltr')
+            $(listElem).css('padding-right', 'inherit')
+        }
+    })
     // Elements to be aligned to right
     let alignedSelectors = [
         // summary header
@@ -345,6 +357,7 @@ function rtlPage(docBody) {
             $(el).css("text-align", "center");
         });
     }
+
     let fixWidthSelectors = [
         ".property-list .item .value.editable-field"
     ];
