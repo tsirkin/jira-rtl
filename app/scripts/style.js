@@ -41,7 +41,7 @@ function addStylesheetRules(styleElemId, rules) {
 }
 
 function removeRule(styleElemId, ruleSelector) {
-    if (!styleElemId && !document.getElementById(styleElemId)) {
+    if (!styleElemId || !document.getElementById(styleElemId)) {
         // the rules already exists
         return;
     }

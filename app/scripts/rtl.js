@@ -94,10 +94,18 @@ function setProseMirrorDirection() {
         if (!$(el).hasClass(clazz)) {
             $(el).addClass(clazz)
         }
-
-        $(el).find('p').each((pidx, pel) => {
+        // Use children here instead of find to get only imiidiate children
+        // Counting deep children will also count children inside UL & OL breaking style rules
+        $(el).children('p,ol,ul').each((pidx, pel) => {
             let text = $(pel).text();
-            let childSelector = `.${clazz}.ProseMirror p:nth-child(${pidx + 1})`;
+            let tagName = $(pel).prop("tagName");
+            if (tagName === "OL" ||
+                tagName === "UL") {
+                text = $(pel).children().first().text()
+            }
+            // Be carefull here to define the style selector exaclty in the way the browser will store it
+            // or find a way to normalize it, otherwise the remove rule will not be able to remove it.
+            let childSelector = `.${clazz}.ProseMirror ${tagName.toLowerCase()}:nth-child(${pidx + 1})`;
             if (!text) {
                 styleLib.removeRule("jira-rtl-prose-mirror", childSelector);
                 return;
