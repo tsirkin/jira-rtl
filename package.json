@@ -17,20 +17,20 @@
   },
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.17",
-    "copy-webpack-plugin": "^4.3.1",
+    "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^3.0.0",
     "deep-freeze-strict": "^1.1.1",
     "envify": "^4.0.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
     "fs-promise": "^2.0.3",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^5.5.0",
     "img-loader": "^3.0.1",
     "style-loader": "^0.19.1",
     "uglifyify": "^4.0.2",
     "uglifyjs-webpack-plugin": "^1.1.6",
     "watchify": "^3.11.1",
-    "webpack": "^3.10.0",
+    "webpack": "^5.75.0",
     "zip-webpack-plugin": "^2.1.0"
   },
   "engines": {
